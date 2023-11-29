@@ -1,15 +1,20 @@
-import 'reflect-metadata'
 import 'dotenv/config'
+import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { User } from './entities/User'
+import { User } from './entities/user'
+import config from "../../ormconfig";
+const port = process.env.DB_PORT as number | undefined
 
-import DataSourceProd from "./data-source-prod";
-import DataSourceLocal from "./data-source-local";
 
-export const AppDataSource = process.env.NODE_ENV === "production"
-? DataSourceProd
-: DataSourceLocal;
 
-export default process.env.NODE_ENV === "production"
-  ? DataSourceProd
-  : DataSourceLocal;
+// export const AppDataSource = new DataSource({
+//   type: 'mysql',
+//   host: process.env.DB_HOST,
+//   port: port,
+//   username: process.env.DB_USER,
+//   database: process.env.DB_NAME,
+//   entities: [User],
+//   migrations: [`${__dirname}/src/**/migrations/*.{ts,js}`],
+// })
+
+export const AppDataSource = new DataSource(config)
